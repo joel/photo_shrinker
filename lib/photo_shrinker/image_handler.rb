@@ -84,7 +84,8 @@ module PhotoShrinker
       PhotoShrinker.configuration.options
     end
 
-    def format_size(size) # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize
+    def format_size(size)
       conv = %w[b kb mb gb tb pb eb]
       scale = 1024
 
@@ -98,6 +99,7 @@ module PhotoShrinker
       ndx = 7
       "#{format("%.2f", (size / (scale**(ndx - 1))))} #{conv[ndx - 1]}"
     end
+    # rubocop:enable Metrics/AbcSize
 
     attr_reader :image_path, :sub_directory
   end
