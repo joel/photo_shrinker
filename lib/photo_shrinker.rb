@@ -56,11 +56,13 @@ module PhotoShrinker
       PhotoShrinker.configuration.options
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def queueing
       Thread.new do
         collection.each do |image_path|
           log("Reading... [#{File.basename(image_path).downcase}]")
-          sub_directory =  Pathname(
+          sub_directory = Pathname(
             File.dirname(
               (p2a(image_path) - p2a(options.source_directory))
                 .join('/')
@@ -70,6 +72,8 @@ module PhotoShrinker
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     def p2a(path)
       path.to_s.split('/')
