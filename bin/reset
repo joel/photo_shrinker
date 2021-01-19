@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+find fixtures/shrinked/* -exec rm -rf {} \; -print
