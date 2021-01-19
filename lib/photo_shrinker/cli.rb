@@ -16,7 +16,7 @@ module PhotoShrinker
       end
 
       def define_options(parser) # rubocop:disable Metrics/MethodLength
-        parser.banner = 'Usage: bin/sort -s /Volume/Ext/Source -t /Volume/Ext/Destination --verbose'
+        parser.banner = 'Usage: bin/shrink -s /Volume/Ext/Source -t /Volume/Ext/Destination --verbose'
         parser.separator ''
         parser.separator 'Specific options:'
 

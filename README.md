@@ -1,28 +1,79 @@
 # PhotoShrinker
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/photo_shrinker`. To experiment with that code, run `bin/console` for an interactive prompt.
+Reducing your Photo sizes without losing quality.
 
-TODO: Delete this and the text above, and describe your gem
+When you have a lot of old Photos, like me, they have almost 20 years old, you might when to reduce the huge amount of space taken by those. After all, the only thing we want is to have a look at it a remember a good time.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+### Docker
 
-```ruby
-gem 'photo_shrinker'
+```
+git clone https://github.com/joel/photo_shrinker
 ```
 
-And then execute:
+```
+cd photo_shrinker
+```
 
-    $ bundle install
+```
+docker build --tag photo:shrinker .
+```
 
-Or install it yourself as:
+### Macos
 
-    $ gem install photo_shrinker
+```
+git clone https://github.com/joel/photo_shrinker
+```
+
+```
+cd photo_shrinker
+```
+
+```
+bundle install
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Docker
+
+```
+docker run --rm --name shrinker \
+  --mount type=bind,source=(pwd),target=/workdir \
+  --workdir /workdir \
+  --mount "type=bind,source=/Volumes/My Backup Hard Disk,target=/workdir/unshrinked" \
+  --mount "type=bind,source=/Volumes/Other Hard Disk/Pictures,target=/workdir/shrinked" \
+-it photo:shrinker sh -c "sh /workdir/bin/shrink --no-verbose --source_directory '/workdir/unshrinked' --target_directory '/workdir/shrinked' --parallel 8"
+```
+
+### Macos
+
+```
+cd photo_shrinker
+```
+
+```
+bin/shrink --help
+```
+
+```
+bin/shrink.rb --help
+
+Usage: bin/shrink -s /Volume/Ext/Source -t /Volume/Ext/Destination --no-verbose
+
+Specific options:
+    -s SOURCE_DIRECTORY,             [OPTIONAL] Where the pictures are
+        --source_directory
+    -t TARGET_DIRECTORY,             [OPTIONAL] Where the pictures will go
+        --target_directory
+    -n, --parallel PARALLEL          [OPTIONAL] How many threads
+    -v, --[no-]verbose               Run verbosely
+
+Common options:
+    -h, --help                       Show this message
+        --version                    Show version
+```
 
 ## Development
 
@@ -40,4 +91,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the PhotoShrinker project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/photo_shrinker/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Photoshrinker project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/photo_shrinker/blob/master/CODE_OF_CONDUCT.md).
