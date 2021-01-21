@@ -2,11 +2,17 @@
 
 require 'zeitwerk'
 loader = Zeitwerk::Loader.for_gem
+
+core_ext = "#{__dir__}/core_ext"
+loader.ignore(core_ext)
+
 loader.setup
 
 def log(msg)
   PhotoShrinker.configuration.logger.info(msg)
 end
+
+require_relative 'core_ext/string/filters'
 
 require 'json'
 require 'thwait'
@@ -47,7 +53,8 @@ module PhotoShrinker
     private
 
     def collection
-      Dir.glob("#{options.source_directory}/**/*.{jpg,jpeg}").map do |entry|
+      filters = Object.const_get("PhotoShrinker::#{options.media.to_s.capitalize}Strategy").filters
+      Dir.glob("#{options.source_directory}/**/*.#{filters}").map do |entry|
         Pathname(entry)
       end
     end
@@ -60,15 +67,15 @@ module PhotoShrinker
     # rubocop:disable Metrics/MethodLength
     def queueing
       Thread.new do
-        collection.each do |image_path|
-          log("Reading... [#{File.basename(image_path).downcase}]")
+        collection.each do |media_path|
+          log("Reading... [#{File.basename(media_path).downcase}]")
           sub_directory = Pathname(
             File.dirname(
-              (p2a(image_path) - p2a(options.source_directory))
+              (p2a(media_path) - p2a(options.source_directory))
                 .join('/')
             )
           )
-          queue << { image_path: image_path, sub_directory: sub_directory }.to_json
+          queue << { media_path: media_path, sub_directory: sub_directory }.to_json
         end
       end
     end
@@ -83,8 +90,8 @@ module PhotoShrinker
       Thread.new do
         while (info = queue.pop)
           info = JSON.parse(info).transform_keys(&:to_sym)
-          log("[#{consumer_number}] consumed #{info[:image_path]}")
-          ImageHandler.new(**info).call
+          log("[#{consumer_number}] consumed #{info[:media_path]}")
+          MediaHandler.new(**info).call
           progress_bar.advance
         end
       end

@@ -6,13 +6,14 @@ require 'pathname'
 module PhotoShrinker
   class OptparseExample
     class ScriptOptions
-      attr_accessor :verbose, :source_directory, :target_directory, :parallel
+      attr_accessor :verbose, :source_directory, :target_directory, :parallel, :media
 
       def initialize
         self.verbose = false
         self.source_directory = './fixtures/unshrinked'
         self.target_directory = './fixtures/shrinked'
         self.parallel = 8
+        self.media = :image
       end
 
       def define_options(parser) # rubocop:disable Metrics/MethodLength
@@ -24,6 +25,7 @@ module PhotoShrinker
         source_directory_option(parser)
         target_directory_option(parser)
         parallel_option(parser)
+        media_option(parser)
 
         boolean_verbose_option(parser)
 
@@ -63,6 +65,13 @@ module PhotoShrinker
         parser.on('-t TARGET_DIRECTORY', '--target_directory TARGET_DIRECTORY',
                   '[OPTIONAL] Where the pictures will go', String) do |target_directory|
           self.target_directory = Pathname(target_directory)
+        end
+      end
+
+      def media_option(parser)
+        parser.on('--media [MEDIA]', %i[image video],
+                  'Select the media type (image, video)') do |media|
+          self.media = media
         end
       end
 
