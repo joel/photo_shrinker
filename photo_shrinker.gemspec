@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'thwait'
   spec.add_dependency 'tty-progressbar'
+  spec.add_dependency 'tty-logger'
   spec.add_dependency 'zeitwerk'
 
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }

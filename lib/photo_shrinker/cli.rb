@@ -2,7 +2,7 @@
 
 require 'optparse'
 require 'pathname'
-
+require 'tty-logger'
 module PhotoShrinker
   class OptparseExample
     class ScriptOptions
@@ -122,10 +122,18 @@ module PhotoShrinker
     end
 
     def call
+      logger = NullLogger.new
+      logger = TTY::Logger.new if options.verbose
+
       PhotoShrinker.configure do |conf|
-        conf.verbose = options.verbose
         conf.options = options
+        conf.logger = logger
       end
+
+      PhotoShrinker.configuration.logger do |config|
+        config.level = :info
+      end
+
       PhotoShrinker::Main.new.call
     end
 
