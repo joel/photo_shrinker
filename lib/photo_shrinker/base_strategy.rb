@@ -13,14 +13,15 @@ module PhotoShrinker
       end
 
       begin
-        result = super
+        super
 
         log("[#{format_size(File.size(media_path))}] => [#{format_size(File.size(target_path))}]")
 
-        if File.exist?(target_path) && result
-          # TODO: Implement removing of original file --delete
-          # log("removing [#{file_name}]")
-          # FileUtils.rm_f(media_path)
+        if File.exist?(target_path)
+          if options.delete
+            log("removing [#{file_name}]")
+            FileUtils.rm_f(media_path)
+          end
         else
           log("Convert [#{file_name}] FAILED!")
         end

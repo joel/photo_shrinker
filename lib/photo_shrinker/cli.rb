@@ -6,7 +6,7 @@ require 'pathname'
 module PhotoShrinker
   class OptparseExample
     class ScriptOptions
-      attr_accessor :verbose, :source_directory, :target_directory, :parallel, :media
+      attr_accessor :verbose, :source_directory, :target_directory, :parallel, :media, :delete
 
       def initialize
         self.verbose = false
@@ -14,6 +14,7 @@ module PhotoShrinker
         self.target_directory = './fixtures/shrinked'
         self.parallel = 8
         self.media = :image
+        self.delete = false
       end
 
       def define_options(parser) # rubocop:disable Metrics/MethodLength
@@ -28,6 +29,7 @@ module PhotoShrinker
         media_option(parser)
 
         boolean_verbose_option(parser)
+        boolean_delete_option(parser)
 
         parser.separator ''
         parser.separator 'Common options:'
@@ -76,9 +78,14 @@ module PhotoShrinker
       end
 
       def boolean_verbose_option(parser)
-        # Boolean switch.
-        parser.on('-v', '--[no-]verbose', 'Run verbosely') do |v|
-          self.verbose = v
+        parser.on('-v', '--[no-]verbose', 'Run verbosely') do |verbose|
+          self.verbose = verbose
+        end
+      end
+
+      def boolean_delete_option(parser)
+        parser.on('-d', '--[no-]delete', '[WARNING] Delete the original files after the compression!') do |delete|
+          self.delete = delete
         end
       end
     end
