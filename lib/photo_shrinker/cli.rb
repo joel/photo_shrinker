@@ -4,6 +4,7 @@ require 'optparse'
 require 'pathname'
 require 'tty-logger'
 require 'tty-prompt'
+require 'tty-font'
 module PhotoShrinker
   class OptparseExample
     class ScriptOptions
@@ -115,7 +116,11 @@ module PhotoShrinker
   end
 
   class Cli
-    def initialize
+    def initialize # rubocop:disable Metrics/MethodLength
+      font = TTY::Font.new(:doom)
+      puts font.write('Media Shrinker')
+      sleep 1
+
       example = OptparseExample.new
       @options = example.parse(ARGV)
 

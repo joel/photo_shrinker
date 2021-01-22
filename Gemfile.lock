@@ -4,6 +4,7 @@ PATH
     photo_shrinker (0.1.0)
       thwait
       tty-command
+      tty-font
       tty-logger
       tty-progressbar
       tty-prompt
@@ -70,6 +71,7 @@ GEM
     tty-command (0.10.0)
       pastel (~> 0.8)
     tty-cursor (0.7.1)
+    tty-font (0.5.0)
     tty-logger (0.6.0)
       pastel (~> 0.8)
     tty-progressbar (0.18.0)

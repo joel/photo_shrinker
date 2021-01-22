@@ -58,6 +58,7 @@ module PhotoShrinker
     end
 
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Style/FormatStringToken
     def format_size(size)
       conv = %w[b kb mb gb tb pb eb]
       scale = 1024
@@ -73,6 +74,7 @@ module PhotoShrinker
       "#{format("%.2f", (size / (scale**(ndx - 1))))} #{conv[ndx - 1]}"
     end
     # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Style/FormatStringToken
 
     def options
       PhotoShrinker.configuration.options
