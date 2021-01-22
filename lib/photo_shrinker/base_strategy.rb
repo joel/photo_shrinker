@@ -45,6 +45,7 @@ module PhotoShrinker
 
     def printer_mode
       return :null unless options.verbose
+
       :pretty
     end
 

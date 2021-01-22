@@ -22,7 +22,8 @@ module PhotoShrinker
       # rubocop:disable Metrics/MethodLength
       def define_options(parser)
         # parser.banner = 'Usage: bin/shrink -s /Volume/Ext/Source -t /Volume/Ext/Destination --verbose'
-        parser.banner = 'Usage: bin/shrink --source_directory=$(pwd)/fixtures/unshrinked --target_directory=$(pwd)/fixtures/shrinked --no-delete --no-verbose'
+        parser.banner = 'Usage: bin/shrink --source_directory=$(pwd)/fixtures/unshrinked ' \
+          '--target_directory=$(pwd)/fixtures/shrinked --no-delete --no-verbose'
         parser.separator ''
         parser.separator 'Specific options:'
 
