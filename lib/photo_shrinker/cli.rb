@@ -21,7 +21,8 @@ module PhotoShrinker
       # rubocop:disable Metrics/AbcSize
       # rubocop:disable Metrics/MethodLength
       def define_options(parser)
-        parser.banner = 'Usage: bin/shrink -s /Volume/Ext/Source -t /Volume/Ext/Destination --verbose'
+        # parser.banner = 'Usage: bin/shrink -s /Volume/Ext/Source -t /Volume/Ext/Destination --verbose'
+        parser.banner = 'Usage: bin/shrink --source_directory=$(pwd)/fixtures/unshrinked --target_directory=$(pwd)/fixtures/shrinked --no-delete --no-verbose'
         parser.separator ''
         parser.separator 'Specific options:'
 
@@ -60,7 +61,7 @@ module PhotoShrinker
       end
 
       def source_directory_option(parser)
-        parser.on('-s SOURCE_DIRECTORY', '--source_directory SOURCE_DIRECTORY', '[OPTIONAL] Where the pictures are',
+        parser.on('-s SOURCE_DIRECTORY', '--source_directory SOURCE_DIRECTORY', '[OPTIONAL] Where the medias are',
                   String) do |source_directory|
           self.source_directory = Pathname(source_directory)
         end
@@ -68,7 +69,7 @@ module PhotoShrinker
 
       def target_directory_option(parser)
         parser.on('-t TARGET_DIRECTORY', '--target_directory TARGET_DIRECTORY',
-                  '[OPTIONAL] Where the pictures will go', String) do |target_directory|
+                  '[OPTIONAL] Where the medias will go', String) do |target_directory|
           self.target_directory = Pathname(target_directory)
         end
       end

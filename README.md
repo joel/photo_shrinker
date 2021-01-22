@@ -4,6 +4,8 @@ Reducing your Photo sizes without losing quality.
 
 When you have a lot of old Photos, like me, they have almost 20 years old, you might when to reduce the huge amount of space taken by those. After all, the only thing we want is to have a look at it a remember a good time.
 
+`PhotoShrinker` can take care of your videos too! Just change the media type `--media=video`
+
 ## Installation
 
 ### Docker
@@ -60,19 +62,28 @@ bin/shrink --help
 ```
 bin/shrink.rb --help
 
-Usage: bin/shrink -s /Volume/Ext/Source -t /Volume/Ext/Destination --no-verbose
+Usage: bin/shrink --source_directory=$(pwd)/fixtures/unshrinked --target_directory=$(pwd)/fixtures/shrinked --no-delete --no-verbose
 
 Specific options:
-    -s SOURCE_DIRECTORY,             [OPTIONAL] Where the pictures are
+    -s SOURCE_DIRECTORY,             [OPTIONAL] Where the medias are
         --source_directory
-    -t TARGET_DIRECTORY,             [OPTIONAL] Where the pictures will go
+    -t TARGET_DIRECTORY,             [OPTIONAL] Where the medias will go
         --target_directory
     -n, --parallel PARALLEL          [OPTIONAL] How many threads
+        --media [MEDIA]              Select the media type (image, video)
     -v, --[no-]verbose               Run verbosely
+    -d, --[no-]delete                [WARNING] Delete the original files after the compression!
 
 Common options:
     -h, --help                       Show this message
         --version                    Show version
+```
+
+Typical output
+```
+bin/shrink --no-verbose --source_directory=(pwd)/fixtures/unshrinked --target_directory=(pwd)/fixtures/shrinked
+shrinking [====================]
+[METRICS]  Completed in 4313.6ms | Allocations: 1738
 ```
 
 ## Development
