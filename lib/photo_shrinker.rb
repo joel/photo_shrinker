@@ -64,7 +64,7 @@ module PhotoShrinker
 
     def directory_size(refresh: false, directory: options.source_directory)
       @collection = nil if refresh
-      collection(directory: directory).map { |media_path| File.size(media_path) }.sum
+      collection(directory: directory).sum { |media_path| File.size(media_path) }
     end
 
     def collection(directory: options.source_directory)
