@@ -3,6 +3,7 @@
 require 'optparse'
 require 'pathname'
 require 'tty-logger'
+require 'tty-prompt'
 module PhotoShrinker
   class OptparseExample
     class ScriptOptions
@@ -17,7 +18,9 @@ module PhotoShrinker
         self.delete = false
       end
 
-      def define_options(parser) # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
+      def define_options(parser)
         parser.banner = 'Usage: bin/shrink -s /Volume/Ext/Source -t /Volume/Ext/Destination --verbose'
         parser.separator ''
         parser.separator 'Specific options:'
@@ -89,6 +92,8 @@ module PhotoShrinker
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     #
     # Return a structure describing the options.
@@ -121,7 +126,15 @@ module PhotoShrinker
       exit(1)
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def call
+      if options.delete
+        prompt = TTY::Prompt.new
+        confirmation = prompt.yes?('Are you sure you want to delete the original files?')
+        exit! unless confirmation
+      end
+
       logger = NullLogger.new
       logger = TTY::Logger.new if options.verbose
 
@@ -136,6 +149,8 @@ module PhotoShrinker
 
       PhotoShrinker::Main.new.call
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     def help(opts)
       puts(opts)

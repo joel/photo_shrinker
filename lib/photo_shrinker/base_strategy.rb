@@ -25,7 +25,7 @@ module PhotoShrinker
         if File.exist?(target_path)
           if options.delete
             log("removing [#{file_name}]")
-            # FileUtils.rm_f(media_path)
+            FileUtils.rm_f(media_path)
           end
         else
           log("Convert [#{file_name}] FAILED!")
@@ -66,5 +66,9 @@ module PhotoShrinker
       "#{format("%.2f", (size / (scale**(ndx - 1))))} #{conv[ndx - 1]}"
     end
     # rubocop:enable Metrics/AbcSize
+
+    def options
+      PhotoShrinker.configuration.options
+    end
   end
 end
