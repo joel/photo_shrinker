@@ -1,0 +1,21 @@
+
+name: Rspec
+
+on: [push,pull_request]
+
+jobs:
+  test:
+    name: Run Test Suite
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.0
+    - name: Install dependencies
+      run: |
+        gem install bundler -v 2.2.3
+        bundle install
+    - name: Run tests
+      run: bundle exec rake

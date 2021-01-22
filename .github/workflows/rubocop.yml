@@ -1,4 +1,4 @@
-name: Ruby
+name: RuboCop
 
 on: [push,pull_request]
 
@@ -24,22 +24,5 @@ jobs:
         bundle config path vendor/bundle
         bundle config set without 'default doc job cable storage ujs test db'
         bundle install --jobs 4 --retry 3
-    - name: Run Tests
-      run: bundle exec rake
     - name: Run RuboCop
       run: bundle exec rubocop --parallel
-
-  build:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          tags: photo/shrinker:latest
-      -
-        name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
