@@ -33,6 +33,7 @@ module PhotoShrinker
     end
 
     def call
+      initial_size = directory_size
       producer = queueing
 
       consumers = []
@@ -48,14 +49,26 @@ module PhotoShrinker
       end
       # rubocop:enable Lint/RescueException
       # rubocop:enable Lint/SuppressedException
+
+      final_size = directory_size(refresh: true, directory: options.target_directory)
+
+      reduction = 100 - final_size * 100 / initial_size
+      puts("\e[1m\e[32m[REDUCING BY]\e[0m  \e[32m-#{reduction}%\e[0m")
     end
 
     private
 
-    def collection
-      filters = Object.const_get("PhotoShrinker::#{options.media.to_s.capitalize}Strategy").filters
-      Dir.glob("#{options.source_directory}/**/*.#{filters}").map do |entry|
-        Pathname(entry)
+    def directory_size(refresh: false, directory: options.source_directory)
+      @collection = nil if refresh
+      collection(directory: directory).map { |media_path| File.size(media_path) }.sum
+    end
+
+    def collection(directory: options.source_directory)
+      @collection ||= begin
+        filters = Object.const_get("PhotoShrinker::#{options.media.to_s.capitalize}Strategy").filters
+        Dir.glob("#{directory}/**/*.#{filters}").map do |entry|
+          Pathname(entry)
+        end
       end
     end
 
