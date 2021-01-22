@@ -4,11 +4,6 @@ module PhotoShrinker
   class ImageStrategy
     prepend BaseStrategy
 
-    def initialize(media_path:, target_path:)
-      @media_path = media_path
-      @target_path = target_path
-    end
-
     # rubocop:disable Metrics/MethodLength
     def call
       cmds = [
@@ -40,9 +35,5 @@ module PhotoShrinker
     def self.filters
       '{jpg,jpeg}'
     end
-
-    private
-
-    attr_reader :media_path, :target_path
   end
 end

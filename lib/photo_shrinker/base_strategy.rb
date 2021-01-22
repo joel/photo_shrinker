@@ -4,6 +4,11 @@ require 'shellwords'
 
 module PhotoShrinker
   module BaseStrategy
+    def initialize(media_path:, target_path:)
+      @media_path = media_path
+      @target_path = target_path
+    end
+
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def call
@@ -20,7 +25,7 @@ module PhotoShrinker
         if File.exist?(target_path)
           if options.delete
             log("removing [#{file_name}]")
-            FileUtils.rm_f(media_path)
+            # FileUtils.rm_f(media_path)
           end
         else
           log("Convert [#{file_name}] FAILED!")
@@ -33,12 +38,19 @@ module PhotoShrinker
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
+    private
+
+    attr_reader :media_path, :target_path
+
+    def file_name
+      File.basename(media_path)
+    end
+
     def escape(expr)
       Shellwords.escape(expr.to_s)
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Style/FormatStringToken
     def format_size(size)
       conv = %w[b kb mb gb tb pb eb]
       scale = 1024
@@ -54,6 +66,5 @@ module PhotoShrinker
       "#{format("%.2f", (size / (scale**(ndx - 1))))} #{conv[ndx - 1]}"
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Style/FormatStringToken
   end
 end

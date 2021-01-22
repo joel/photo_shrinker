@@ -4,11 +4,6 @@ module PhotoShrinker
   class VideoStrategy
     prepend BaseStrategy
 
-    def initialize(media_path:, target_path:)
-      @media_path = media_path
-      @target_path = target_path
-    end
-
     def call
       cmd = <<-CMD.squish
         ffmpeg -n -loglevel error
@@ -23,9 +18,5 @@ module PhotoShrinker
     def self.filters
       '{avi,flv,m4v,mov,wmv,mp4,MP4,TS,mkv}'
     end
-
-    private
-
-    attr_reader :media_path, :target_path
   end
 end
