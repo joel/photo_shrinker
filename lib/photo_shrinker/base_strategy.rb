@@ -58,6 +58,7 @@ module PhotoShrinker
     end
 
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def format_size(size)
       conv = %w[b kb mb gb tb pb eb]
       scale = 1024
@@ -67,13 +68,18 @@ module PhotoShrinker
 
       size = size.to_f
       [2, 3, 4, 5, 6, 7].each do |index|
-        return "#{format("%.2f", (size / (scale**(index - 1))))} #{conv[index - 1]}" if size < 2 * (scale**index)
+        if size < 2 * (scale**index)
+          return "#{format(
+            "%<offset>.2f", offset: (size / (scale**(index - 1)))
+          )} #{conv[index - 1]}"
+        end
       end
       ndx = 7
-      "#{format("%.2f", (size / (scale**(ndx - 1))))} #{conv[ndx - 1]}"
+      "#{format("%<offset>.2f", offset: (size / (scale**(ndx - 1))))} #{conv[ndx - 1]}"
     end
-
     # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+
     def options
       PhotoShrinker.configuration.options
     end
