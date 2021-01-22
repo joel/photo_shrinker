@@ -19,13 +19,11 @@ module PhotoShrinker
 
       begin
         cmd = TTY::Command.new(printer: printer_mode)
-        out, err = cmd.run(super)
-
-        log(out)
+        result = cmd.run(super)
 
         log("[#{format_size(File.size(media_path))}] => [#{format_size(File.size(target_path))}]")
 
-        if File.exist?(target_path) && err.empty?
+        if File.exist?(target_path) && result.success?
           if options.delete
             log("removing [#{file_name}]")
             # FileUtils.rm_f(media_path)
