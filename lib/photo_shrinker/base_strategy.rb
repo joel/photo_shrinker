@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'shellwords'
-
+require 'tty-command'
 module PhotoShrinker
   module BaseStrategy
     def initialize(media_path:, target_path:)
@@ -18,14 +18,17 @@ module PhotoShrinker
       end
 
       begin
-        super
+        cmd = TTY::Command.new(printer: printer_mode)
+        out, err = cmd.run(super)
+
+        log(out)
 
         log("[#{format_size(File.size(media_path))}] => [#{format_size(File.size(target_path))}]")
 
-        if File.exist?(target_path)
+        if File.exist?(target_path) && err.empty?
           if options.delete
             log("removing [#{file_name}]")
-            FileUtils.rm_f(media_path)
+            # FileUtils.rm_f(media_path)
           end
         else
           log("Convert [#{file_name}] FAILED!")
@@ -41,6 +44,11 @@ module PhotoShrinker
     private
 
     attr_reader :media_path, :target_path
+
+    def printer_mode
+      return :null unless options.verbose
+      :pretty
+    end
 
     def file_name
       File.basename(media_path)

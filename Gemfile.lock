@@ -3,6 +3,7 @@ PATH
   specs:
     photo_shrinker (0.1.0)
       thwait
+      tty-command
       tty-logger
       tty-progressbar
       tty-prompt
@@ -66,6 +67,8 @@ GEM
     thwait (0.2.0)
       e2mmap
     tty-color (0.6.0)
+    tty-command (0.10.0)
+      pastel (~> 0.8)
     tty-cursor (0.7.1)
     tty-logger (0.6.0)
       pastel (~> 0.8)
@@ -100,4 +103,4 @@ DEPENDENCIES
   rubocop-rspec
 
 BUNDLED WITH
-   2.2.3
+   2.2.6
