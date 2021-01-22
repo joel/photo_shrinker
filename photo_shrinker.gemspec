@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   end
   spec.bindir = 'exe'
 
+  spec.add_dependency 'activesupport'
   spec.add_dependency 'thwait'
   spec.add_dependency 'tty-command'
   spec.add_dependency 'tty-font'

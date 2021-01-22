@@ -32,6 +32,8 @@ module PhotoShrinker
       @progress_bar = TTY::ProgressBar.new('shrinking [:bar]', total: collection.size)
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def call
       initial_size = directory_size
       producer = queueing
@@ -55,6 +57,8 @@ module PhotoShrinker
       reduction = 100 - final_size * 100 / initial_size
       puts("\e[1m\e[32m[REDUCING BY]\e[0m  \e[32m-#{reduction}%\e[0m")
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     private
 
