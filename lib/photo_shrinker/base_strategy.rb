@@ -21,6 +21,12 @@ module PhotoShrinker
         cmd = TTY::Command.new(printer: printer_mode)
         result = cmd.run(super)
 
+        # Preserve File System Timestamps
+        orignal_date_time = File.ctime(media_path.to_s)
+        system(
+          "touch -a -m -t #{orignal_date_time.strftime("%Y%m%d%H%M")} #{escape(target_path)}"
+        )
+
         log("[#{format_size(File.size(media_path))}] => [#{format_size(File.size(target_path))}]")
 
         if File.exist?(target_path) && result.success?
