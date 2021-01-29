@@ -25,7 +25,6 @@ module PhotoShrinker
         '-define png:exclude-chunk=all',
         '-interlace none',
         '-colorspace sRGB',
-        '-strip',
         escape(media_path.to_s)
       ]
       system(cmds.join(' '))
