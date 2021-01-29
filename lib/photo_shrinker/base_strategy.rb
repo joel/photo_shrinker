@@ -32,7 +32,7 @@ module PhotoShrinker
         if File.exist?(target_path) && result.success?
           if options.delete
             log("removing [#{file_name}]")
-            # FileUtils.rm_f(media_path)
+            FileUtils.rm_f(media_path)
           end
         else
           log("Convert [#{file_name}] FAILED!")
